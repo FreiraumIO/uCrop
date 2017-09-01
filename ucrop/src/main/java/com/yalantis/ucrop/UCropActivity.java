@@ -449,10 +449,12 @@ public class UCropActivity extends AppCompatActivity {
         mShowLoader = true;
         supportInvalidateOptionsMenu();
 
+        Log.d("uCrop", "cropAndSave format=" + mCompressFormat + " quality=" + mCompressQuality);
         mGestureCropImageView.cropAndSaveImage(mCompressFormat, mCompressQuality, new BitmapCropCallback() {
 
             @Override
             public void onBitmapCropped(@NonNull Uri resultUri, int offsetX, int offsetY, int imageWidth, int imageHeight) {
+                Log.d("uCrop", "onBitmapCropped ox=" + offsetX + " oy=" + offsetY + " iw=" + imageWidth + " ih=" + imageHeight);
                 setResultUri(resultUri, mGestureCropImageView.getTargetAspectRatio(), offsetX, offsetY, imageWidth, imageHeight);
                 finish();
             }
