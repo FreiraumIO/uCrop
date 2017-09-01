@@ -371,6 +371,8 @@ public class UCropActivity extends AppCompatActivity {
         findViewById(R.id.wrapper_reset_rotate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetZoom();
+                resetAspectRatio();
                 resetRotation();
             }
         });
@@ -391,6 +393,15 @@ public class UCropActivity extends AppCompatActivity {
     private void resetRotation() {
         mGestureCropImageView.postRotate(-mGestureCropImageView.getCurrentAngle());
         mGestureCropImageView.setImageToWrapCropBounds();
+    }
+
+    private void resetZoom() {
+        float currentScale = mGestureCropImageView.getCurrentScale();
+        mGestureCropImageView.zoomOutImage(1f - currentScale, true);
+    }
+
+    private void resetAspectRatio(){
+        mGestureCropImageView.setTargetAspectRatio(CropImageView.SOURCE_IMAGE_ASPECT_RATIO);
     }
 
     private void rotateByAngle(int angle) {

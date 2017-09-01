@@ -198,15 +198,23 @@ public class CropImageView extends TransformImageView {
      * This method scales image down for given value related to image center.
      */
     public void zoomOutImage(float deltaScale) {
-        zoomOutImage(deltaScale, mCropRect.centerX(), mCropRect.centerY());
+        this.zoomOutImage(deltaScale, false);
+    }
+
+    public void zoomOutImage(float deltaScale, boolean force) {
+        zoomOutImage(deltaScale, mCropRect.centerX(), mCropRect.centerY(), force);
     }
 
     /**
      * This method scales image down for given value related given coords (x, y).
      */
     public void zoomOutImage(float scale, float centerX, float centerY) {
-        if (scale >= getMinScale()) {
-            postScale(scale / getCurrentScale(), centerX, centerY);
+        zoomOutImage(scale, centerX, centerY, false);
+    }
+
+    public void zoomOutImage(float scale, float centerX, float centerY, boolean force) {
+        if (force || scale >= getMinScale()) {
+            postScale(scale / getCurrentScale(), centerX, centerY, force);
         }
     }
 
@@ -235,10 +243,17 @@ public class CropImageView extends TransformImageView {
      * @param py         - scale center Y
      */
     public void postScale(float deltaScale, float px, float py) {
-        if (deltaScale > 1 && getCurrentScale() * deltaScale <= getMaxScale()) {
+        postScale(deltaScale, px, py, false);
+    }
+    public void postScale(float deltaScale, float px, float py, boolean force) {
+        if (force) {
             super.postScale(deltaScale, px, py);
-        } else if (deltaScale < 1 && getCurrentScale() * deltaScale >= getMinScale()) {
-            super.postScale(deltaScale, px, py);
+        } else {
+            if (deltaScale > 1 && getCurrentScale() * deltaScale <= getMaxScale()) {
+                super.postScale(deltaScale, px, py);
+            } else if (deltaScale < 1 && getCurrentScale() * deltaScale >= getMinScale()) {
+                super.postScale(deltaScale, px, py);
+            }
         }
     }
 
