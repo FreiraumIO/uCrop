@@ -238,6 +238,14 @@ public class TransformImageView extends ImageView {
         }
     }
 
+    public void postScale(float scale) {
+        mCurrentImageMatrix.postScale(scale, scale);
+        setImageMatrix(mCurrentImageMatrix);
+        if (mTransformImageListener != null) {
+            mTransformImageListener.onScale(getMatrixScale(mCurrentImageMatrix));
+        }
+    }
+
     /**
      * This method rotates current image.
      *
