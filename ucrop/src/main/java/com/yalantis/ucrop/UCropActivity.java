@@ -406,6 +406,7 @@ public class UCropActivity extends AppCompatActivity {
 
     private void rotateByAngle(int angle) {
         mGestureCropImageView.postRotate(angle);
+        resetZoom();
         mGestureCropImageView.setImageToWrapCropBounds();
     }
 
